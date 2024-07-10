@@ -5,8 +5,11 @@ BUILD_DIR = bin
 
 # Docker settings
 DOCKER_IMAGE = golang:1.18
-CONTAINER_NAME = go-build-container
 WORK_DIR = /app
+
+# Target architecture and OS
+TARGET_OS = linux
+TARGET_ARCH = amd64
 
 # HELP
 # This will output the help for each task
@@ -19,8 +22,8 @@ help: ## This help.
 # GO TASKS
 
 build: ## Build the Go application
-	@echo "Building Go application in Docker..."
-	docker run --rm -v $(shell pwd):$(WORK_DIR) -w $(WORK_DIR) $(DOCKER_IMAGE) \
+	@echo "Building Go application for $(TARGET_OS)/$(TARGET_ARCH) in Docker..."
+	docker run --rm -e GOOS=$(TARGET_OS) -e GOARCH=$(TARGET_ARCH) -v $(shell pwd):$(WORK_DIR) -w $(WORK_DIR) $(DOCKER_IMAGE) \
 		go build -o $(BUILD_DIR)/$(APP_NAME) $(BUILD_TARGET)
 	@echo "Build completed."
 
@@ -31,7 +34,7 @@ run: build ## Run the Go application
 
 test: ## Run tests
 	@echo "Running tests in Docker..."
-	docker run --rm -v $(shell pwd):$(WORK_DIR) -w $(WORK_DIR) $(DOCKER_IMAGE) \
+	docker run --rm -e GOOS=$(TARGET_OS) -e GOARCH=$(TARGET_ARCH) -v $(shell pwd):$(WORK_DIR) -w $(WORK_DIR) $(DOCKER_IMAGE) \
 		go test ./...
 	@echo "Tests completed."
 
@@ -42,10 +45,10 @@ clean: ## Clean the build directory
 
 release_build: ## Create a release build for different platforms
 	@echo "Creating release builds..."
-	docker run --rm -v $(shell pwd):$(WORK_DIR) -w $(WORK_DIR) $(DOCKER_IMAGE) \
-		go build -o $(BUILD_DIR)/$(APP_NAME)_linux -v $(BUILD_TARGET)
-	docker run --rm -v $(shell pwd):$(WORK_DIR) -w $(WORK_DIR) $(DOCKER_IMAGE) \
-		env GOOS=darwin GOARCH=amd64 go build -o $(BUILD_DIR)/$(APP_NAME)_darwin -v $(BUILD_TARGET)
-	docker run --rm -v $(shell pwd):$(WORK_DIR) -w $(WORK_DIR) $(DOCKER_IMAGE) \
-		env GOOS=windows GOARCH=amd64 go build -o $(BUILD_DIR)/$(APP_NAME).exe -v $(BUILD_TARGET)
+	docker run --rm -e GOOS=linux -e GOARCH=amd64 -v $(shell pwd):$(WORK_DIR) -w $(WORK_DIR) $(DOCKER_IMAGE) \
+		go build -o $(BUILD_DIR)/$(APP_NAME)_linux $(BUILD_TARGET)
+	docker run --rm -e GOOS=darwin -e GOARCH=amd64 -v $(shell pwd):$(WORK_DIR) -w $(WORK_DIR) $(DOCKER_IMAGE) \
+		go build -o $(BUILD_DIR)/$(APP_NAME)_darwin $(BUILD_TARGET)
+	docker run --rm -e GOOS=windows -e GOARCH=amd64 -v $(shell pwd):$(WORK_DIR) -w $(WORK_DIR) $(DOCKER_IMAGE) \
+		go build -o $(BUILD_DIR)/$(APP_NAME).exe $(BUILD_TARGET)
 	@echo "Release builds completed."
