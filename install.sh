@@ -8,10 +8,10 @@ echo "Starting installation process..."
 
 if [ "$OS" = "Linux" ]; then
     echo "Detected Linux operating system."
-    URL="https://github.com/UnitedSignals/meta/releases/download/v1.0.0/meta_linux"
+    URL="https://github.com/UnitedSignals/Openstack_Metadata_Fetcher/releases/download/1.0.0/meta_linux"
 elif [ "$OS" = "Darwin" ]; then
     echo "Detected macOS operating system."
-    URL="https://github.com/UnitedSignals/meta/releases/download/v1.0.0/meta_darwin"
+    URL="https://github.com/UnitedSignals/Openstack_Metadata_Fetcher/releases/download/1.0.0/meta_darwin"
     INSTALL_PATH="/usr/local/bin/meta"
 else
     echo "Unsupported operating system: $OS"
