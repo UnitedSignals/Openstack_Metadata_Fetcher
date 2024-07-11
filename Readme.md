@@ -24,11 +24,17 @@ $ make run
 $ make release_build
 ```
 
+## Installation in an Openstack VM
+
+```
+$ sudo sh -c "$(curl -fsSL 'https://raw.githubusercontent.com/UnitedSignals/Openstack_Metadata_Fetcher/main/install.sh?token=GHSAT0AAAAAACS5XYNZOEDRCLPF3244FI7GZUPU6NQ')"
+```
+
 ## Usage
 
-Once copied to the target VM, the tool should be put into a folder, where typically binaries reside. For example `/usr/local/bin`.
+Once copied to the target VM, the tool should be put into a folder, where typically binaries reside. For example `/usr/local/bin`. The installer above will do that for you. Should you decide to manually install the tool, you have to take care about it yourself.
 
-Afterwards one can retrieve keys just by callig:
+Afterwards one can retrieve keys just by calling:
 
 ```
 $ meta <key_name>
