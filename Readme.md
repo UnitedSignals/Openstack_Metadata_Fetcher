@@ -27,7 +27,7 @@ $ make release_build
 ## Installation in an Openstack VM
 
 ```
-$ sudo sh -c "$(curl -fsSL 'https://raw.githubusercontent.com/UnitedSignals/Openstack_Metadata_Fetcher/main/install.sh?token=GHSAT0AAAAAACS5XYNZOEDRCLPF3244FI7GZUPU6NQ')"
+$ sudo sh -c "$(curl -fsSL 'https://raw.githubusercontent.com/UnitedSignals/Openstack_Metadata_Fetcher/main/install.sh')"
 ```
 
 ## Usage
